@@ -1,5 +1,7 @@
-import math
 from datetime import datetime
+import math
+import numpy as np
+import matplotlib as plt
 
 # =============== FONCTIONS ===============
 
@@ -7,13 +9,14 @@ from datetime import datetime
 
 historique = []
 
+
 def ajouter_historique(operation, resultat):
     """Ajouter un calcul l'historique"""
     timestamp = datetime.now().strftime("%H:%M:%S")
     entree = {
         "heure": timestamp,
         "operation": operation,
-        "resultat": resultat 
+        "resultat": resultat
     }
     historique.append(entree)
 
@@ -27,7 +30,8 @@ def afficher_historique():
     print("\n" + "="*34)
     print("L'HISTORIQUE DES CALCULS \n")
     for i, calcul in enumerate(historique, 1):
-        print(f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} ==> {calcul["resultat"]}")
+        print(
+            f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} ==> {calcul["resultat"]}")
     print("="*34)
 
 
@@ -72,7 +76,7 @@ def afficher_menu():
     print("\n" + "="*34)
 
 
-# ========= FONTIONS MATHÉMATIQUES ==========
+# ========= FONCTIONS MATHÉMATIQUES BASIQUES =========
 
 def addition(a, b):
     """Additionne deux nombres"""
@@ -108,6 +112,8 @@ def racine_carree(a):
     return math.sqrt(a)
 
 
+# ========= FONCTIONS TRIGONOMÉTRIQUES =========
+
 def sinus(angle_deg):
     """Calcule le sinus d'un angle en degrés"""
     angle_rad = math.radians(angle_deg)
@@ -126,9 +132,85 @@ def tangente(angle_deg):
     return math.tan(angle_rad)
 
 
+# ========= FONCTIONS DE CONVERSION =========
+
 def degres_vers_radians(angle_deg):
     """Convertit les degrés en radians"""
     return math.radians(angle_deg)
+
+
+# =========== SUITES MATHÉMATIQUES ===========
+
+def fibonacci(n: int):
+    """Génère les n premiers termes de la suite de fibonacci"""
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
+
+    suite = [0, 1]
+
+    for _ in range(2, n):
+        suite.append(suite[-1] + suite[-2])
+
+    return suite
+
+
+def suite_arithmetique(premier_terme, raison, n):
+    """
+    Génère une suite arithmétique
+    u(n) = u(0) + n * raison
+    """
+    if not (isinstance(premier_terme, (int, float)) and
+            isinstance(raison, (int, float)) and
+            isinstance(n, (int, float))):
+        raise TypeError("Argument incorrect")
+
+    return [premier_terme + terme * raison for terme in range(n)]
+
+
+def suite_geometrique(premier_terme, raison, n):
+    """
+    Génère une suite geométrique
+    u(n) = u(0) * raison^n
+    """
+    if not (isinstance(premier_terme, (int, float)) and
+            isinstance(raison, (int, float)) and
+            isinstance(n, int)):
+        raise TypeError("Argument incorrect")
+
+    return [premier_terme * (raison ** terme) for terme in range(n)]
+
+
+def somme_suite_arithmetique(premier_terme, dernier_terme, n):
+    """
+    Calcul la somme d'une suite arithmétique
+    S = n * (premier + dernier) / 2
+    """
+    if not (isinstance(premier_terme, (int, float)) and
+            isinstance(dernier_terme, (int, float)) and
+            isinstance(n, (int, float))):
+        raise TypeError("Argument incorrect")
+
+    return n * (premier_terme + dernier_terme) / 2
+
+
+def somme_suite_geometrique(premier_terme, raison, n):
+    """
+    Calcul la somme d'une suite arithmétique
+    S = premier_terme * (1 - raine^n) / (1 - raison)
+    """
+    if not (isinstance(premier_terme, (int, float)) and
+            isinstance(raison, (int, float)) and
+            isinstance(n, (int, float))):
+        raise TypeError("Argument incorrect")
+
+    if raison == 1:
+        return premier_terme * n
+
+    return premier_terme * (1 - raison**n) / (1 - raison)
 
 
 def demander_nombre(message):
