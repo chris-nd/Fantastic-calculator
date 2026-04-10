@@ -1,7 +1,7 @@
 from datetime import datetime
 import math
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 # =============== FONCTIONS ===============
 
@@ -213,6 +213,68 @@ def somme_suite_geometrique(premier_terme, raison, n):
     return premier_terme * (1 - raison**n) / (1 - raison)
 
 
+# ============= VISUALISATION ===============
+
+def visualiser_suite(suite, titre="Suite mathématique"):
+    """
+    Visualise une suite avec matplotlib
+    """
+    n = len(suite)
+    x = np.array(range(n))
+    y = np.array(suite)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y, "b-o", linewidth=2, makersize=8)
+    plt.xlabel("n (index)", fontsize=12)
+    plt.ylabel("U(n)", fontsize=12)
+    plt.title(titre, fontsize=14, fontweight="bold")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+
+def comparer_suites(suites_dict):
+    """
+    Compare plusieurs suites sur le même graphique
+    suites_dict = {"nom1": suite1, "nom2": suite2, ...}
+    """
+    plt.figure(figsize=(12, 7))
+
+    for nom, suite in suites_dict.items():
+        n = len(suite)
+        x = np.array(range(n))
+        y = np.array(suite)
+        plt.plot(x, y, '-o', label=nom, linewidth=2, makersize=6)
+
+    plt.xlabel("n (index)", fontsize=12)
+    plt.xlabel("U(n)", fontsize=12)
+    plt.title("Comparaison de suites", fontsize=14, fontweight="bold")
+    plt.legend(fontsize=10)
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+    
+# =========== ENSEMBLES MATHÉMATIQUES ===========
+
+def operatons_ensembles(ensemble_a, ensemble_b):
+    """
+    Effectue toutes les opérations sur deux ensembles
+    """
+    a = set(ensemble_a)
+    b = set(ensemble_b)
+
+    return {
+        "union": a | b,
+        "intersection": a & b,
+        "différence_a_b": a - b,
+        "différence_b_a": b - a,
+        "différence_symétrique": a ^ b,
+        "a_sous_ensemble_b": a.issubset(b),
+        "b_sous_ensemble_a": b.issubset(a),
+        "disjoints": a.isdisjoint(b)
+    }
+
 def demander_nombre(message):
     """Demande un nombre à l'utilisateur"""
     while True:
@@ -221,6 +283,45 @@ def demander_nombre(message):
         except ValueError:
             return "❌ Erreur: Veuillez entrer un nombre valide"
 
+
+# ============= COMBINATOIRE ===============
+
+def factorielle(n):
+    """Calcule de n!"""
+    if n < 0:
+        return None
+    return math.factorial(n)
+
+
+def arrangement(n, k):
+    """
+    Calcule A(n,k) = n! / (n-k)!
+    Nombre d'arrangement de k éléments parmi n
+    """
+    if k > n or n < 0 or k < 0:
+        return None
+    return math.factorial(n) // math.factorial(n - k)
+
+
+def combinaison(n, k):
+    """
+    calcule C(n,k) = n! / (k! * (n-k)!)
+    Nombre de combinaison de k éléments parmi n
+    """
+    if k > n or n < 0 or k < 0:
+        return None
+    return math.factorial(n) // (math.factorial(k) * math.factorial(n - k))
+
+
+def triangle_pascal(n):
+    """
+    Génère les n premières lignes du triangle de Pascal
+    """
+    triangle = []
+    for ligne in range(n):
+        ligne_actuelle = [combinaison(ligne, k) for k in range(ligne + 1)]
+        triangle.append(ligne_actuelle)
+    return triangle
 
 # ============= PROGRAMME PRINCIPAL ===============
 
