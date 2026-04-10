@@ -353,6 +353,42 @@ def visualiser_triangle_pascal(n):
     plt.show()
 
 
+# ============= ANALYSE DE SUITES ===============
+
+def analyse_suite(suite):
+    """
+    Analyse une suite moyenne, variance, tendance
+    """
+    arr = np.aaray(suite)
+
+    analyse = {
+        "longueur": len(suite),
+        "min": np.min(arr),
+        "max": np.max(arr),
+        "moyenne": np.mean(arr),
+        "mediane": np.median(arr),
+        "ecart_type": np.std(arr),
+        "variance": np.var(arr),
+        "somme": np.sum(arr)
+    }
+
+    # Tendance (coissance, décroissnate, constante)
+    differences= np.diff(arr)
+
+    if np.all(differences > 0):
+        analyse["tendance"] = "Strictement croissante"
+    elif np.all(differences < 0):
+        analyse["tendance"] = "Strictement décroissante"
+    elif np.all(differences >= 0):
+        analyse["tendance"] = "Croissante"
+    elif np.all(differences <= 0):
+        analyse["tendance"] = "Décroissante"
+    else:
+        analyse["tendance"] = "Ni croissante ni décroissante"
+
+    return analyse 
+
+
 # ============= PROGRAMME PRINCIPAL ===============
 
 def main():
