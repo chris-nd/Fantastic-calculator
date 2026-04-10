@@ -213,6 +213,75 @@ def somme_suite_geometrique(premier_terme, raison, n):
     return premier_terme * (1 - raison**n) / (1 - raison)
 
 
+# ============= COMBINATOIRE ===============
+
+def factorielle(n):
+    """Calcule de n!"""
+    if n < 0:
+        return None
+    return math.factorial(n)
+
+
+def arrangement(n, k):
+    """
+    Calcule A(n,k) = n! / (n-k)!
+    Nombre d'arrangement de k éléments parmi n
+    """
+    if k > n or n < 0 or k < 0:
+        return None
+    return math.factorial(n) // math.factorial(n - k)
+
+
+def combinaison(n, k):
+    """
+    calcule C(n,k) = n! / (k! * (n-k)!)
+    Nombre de combinaison de k éléments parmi n
+    """
+    if k > n or n < 0 or k < 0:
+        return None
+    return math.factorial(n) // (math.factorial(k) * math.factorial(n - k))
+
+
+def triangle_pascal(n):
+    """
+    Génère les n premières lignes du triangle de Pascal
+    """
+    triangle = []
+    for ligne in range(n):
+        ligne_actuelle = [combinaison(ligne, k) for k in range(ligne + 1)]
+        triangle.append(ligne_actuelle)
+    return triangle
+
+
+# =========== ENSEMBLES MATHÉMATIQUES ===========
+
+def operatons_ensembles(ensemble_a, ensemble_b):
+    """
+    Effectue toutes les opérations sur deux ensembles
+    """
+    a = set(ensemble_a)
+    b = set(ensemble_b)
+
+    return {
+        "union": a | b,
+        "intersection": a & b,
+        "différence_a_b": a - b,
+        "différence_b_a": b - a,
+        "différence_symétrique": a ^ b,
+        "a_sous_ensemble_b": a.issubset(b),
+        "b_sous_ensemble_a": b.issubset(a),
+        "disjoints": a.isdisjoint(b)
+    }
+
+def demander_nombre(message):
+    """Demande un nombre à l'utilisateur"""
+    while True:
+        try:
+            return float(input(message))
+        except ValueError:
+            return "❌ Erreur: Veuillez entrer un nombre valide"
+
+
 # ============= VISUALISATION ===============
 
 def visualiser_suite(suite, titre="Suite mathématique"):
@@ -254,74 +323,35 @@ def comparer_suites(suites_dict):
     plt.tight_layout()
     plt.show()
 
-    
-# =========== ENSEMBLES MATHÉMATIQUES ===========
 
-def operatons_ensembles(ensemble_a, ensemble_b):
+def visualiser_triangle_pascal(n):
     """
-    Effectue toutes les opérations sur deux ensembles
+    Visualise le triangle de Pascal
     """
-    a = set(ensemble_a)
-    b = set(ensemble_b)
+    triangle = triangle_pascal(n)
 
-    return {
-        "union": a | b,
-        "intersection": a & b,
-        "différence_a_b": a - b,
-        "différence_b_a": b - a,
-        "différence_symétrique": a ^ b,
-        "a_sous_ensemble_b": a.issubset(b),
-        "b_sous_ensemble_a": b.issubset(a),
-        "disjoints": a.isdisjoint(b)
-    }
+    plt.figure(figsize=(10, 8))
 
-def demander_nombre(message):
-    """Demande un nombre à l'utilisateur"""
-    while True:
-        try:
-            return float(input(message))
-        except ValueError:
-            return "❌ Erreur: Veuillez entrer un nombre valide"
+    for i, ligne in enumerate(triangle):
+        y_pos = n - i -1
+        for j, valeur in enumerate(ligne):
+            x_pos = j - len(ligne) / 2 + 0.5
 
+            # Taille du cercle proportionnelle à la valeur
+            taille = min(valeur * 50, 500)
 
-# ============= COMBINATOIRE ===============
+            plt.scatter(x_pos, y_pos, s=taille, c="blue", alpha=0.6)
+            plt.text(x_pos, y_pos, str(valeur),
+                     ha="center", va="center",
+                     fontsize=10, fontweight="bold")
 
-def factorielle(n):
-    """Calcule de n!"""
-    if n < 0:
-        return None
-    return math.factorial(n)
+    plt.title(f"Triangle de Pascal ({n} lignes)",
+              fontsize=14, fonweight="bold")
+    plt.axis("equal")
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
 
-
-def arrangement(n, k):
-    """
-    Calcule A(n,k) = n! / (n-k)!
-    Nombre d'arrangement de k éléments parmi n
-    """
-    if k > n or n < 0 or k < 0:
-        return None
-    return math.factorial(n) // math.factorial(n - k)
-
-
-def combinaison(n, k):
-    """
-    calcule C(n,k) = n! / (k! * (n-k)!)
-    Nombre de combinaison de k éléments parmi n
-    """
-    if k > n or n < 0 or k < 0:
-        return None
-    return math.factorial(n) // (math.factorial(k) * math.factorial(n - k))
-
-
-def triangle_pascal(n):
-    """
-    Génère les n premières lignes du triangle de Pascal
-    """
-    triangle = []
-    for ligne in range(n):
-        ligne_actuelle = [combinaison(ligne, k) for k in range(ligne + 1)]
-        triangle.append(ligne_actuelle)
-    return triangle
 
 # ============= PROGRAMME PRINCIPAL ===============
 
