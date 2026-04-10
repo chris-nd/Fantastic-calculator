@@ -240,6 +240,7 @@ def arrangement(n, k):
         return None
     return math.factorial(n) // math.factorial(n - k)
 
+
 def combinaison(n, k):
     """
     calcule C(n,k) = n! / (k! * (n-k)!)
