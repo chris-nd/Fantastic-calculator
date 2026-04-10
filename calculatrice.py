@@ -1,7 +1,7 @@
 from datetime import datetime
 import math
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 # =============== FONCTIONS ===============
 
@@ -212,6 +212,25 @@ def somme_suite_geometrique(premier_terme, raison, n):
 
     return premier_terme * (1 - raison**n) / (1 - raison)
 
+
+# ============= PROGRAMME PRINCIPAL ===============
+
+def visualiser_suite(suite, titre="Suite mathématique"):
+    """
+    Visualise une suite avec matplotlib
+    """
+    n = len(suite)
+    x = np.array(range(n))
+    y = np.array(suite)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(x, y, "b-o", linewidth=2, makersize=8)
+    plt.xlabel("n (index)", fontsize=12)
+    plt.ylabel("U(n)", fontsize=12)
+    plt.title(titre, fontsize=14, fontweight="bold")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
 
 def demander_nombre(message):
     """Demande un nombre à l'utilisateur"""
