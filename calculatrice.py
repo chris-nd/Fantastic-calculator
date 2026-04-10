@@ -213,7 +213,7 @@ def somme_suite_geometrique(premier_terme, raison, n):
     return premier_terme * (1 - raison**n) / (1 - raison)
 
 
-# ============= PROGRAMME PRINCIPAL ===============
+# ============= VISUALISATION ===============
 
 def visualiser_suite(suite, titre="Suite mathématique"):
     """
@@ -231,6 +231,29 @@ def visualiser_suite(suite, titre="Suite mathématique"):
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.show()
+
+
+def comparer_suites(suites_dict):
+    """
+    Compare plusieurs suites sur le même graphique
+    suites_dict = {"nom1": suite1, "nom2": suite2, ...}
+    """
+    plt.figure(figsize=(12, 7))
+
+    for nom, suite in suites_dict.items():
+        n = len(suite)
+        x = np.array(range(n))
+        y = np.array(suite)
+        plt.plot(x, y, '-o', label=nom, linewidth=2, makersize=6)
+
+    plt.xlabel("n (index)", fontsize=12)
+    plt.xlabel("U(n)", fontsize=12)
+    plt.title("Comparaison de suites", fontsize=14, fontweight="bold")
+    plt.legned(fontsize=10)
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
 
 def demander_nombre(message):
     """Demande un nombre à l'utilisateur"""
