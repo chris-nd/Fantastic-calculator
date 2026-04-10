@@ -213,6 +213,26 @@ def somme_suite_geometrique(premier_terme, raison, n):
     return premier_terme * (1 - raison**n) / (1 - raison)
 
 
+# =========== ENSEMBLES MATHÉMATIQUES ===========
+
+def operatons_ensembles(ensemble_a, ensemble_b):
+    """
+    Effectue toutes les opérations sur deux ensembles
+    """
+    a = set(ensemble_a)
+    b = set(ensemble_b)
+
+    return {
+        "union": a | b,
+        "intersection": a & b,
+        "différence_a_b": a - b,
+        "différence_b_a": b - a,
+        "différence_symétrique": a ^ b,
+        "a_sous_ensemble_b": a.issubset(b),
+        "b_sous_ensemble_a": b.issubset(a),
+        "disjoints": a.isdisjoint(b)
+    }
+
 def demander_nombre(message):
     """Demande un nombre à l'utilisateur"""
     while True:
