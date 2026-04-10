@@ -249,7 +249,7 @@ def comparer_suites(suites_dict):
     plt.xlabel("n (index)", fontsize=12)
     plt.xlabel("U(n)", fontsize=12)
     plt.title("Comparaison de suites", fontsize=14, fontweight="bold")
-    plt.legned(fontsize=10)
+    plt.legend(fontsize=10)
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.show()
