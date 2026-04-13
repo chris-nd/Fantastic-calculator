@@ -379,7 +379,7 @@ def visualiser_triangle_pascal(n):
                      fontsize=10, fontweight="bold")
 
     plt.title(f"Triangle de Pascal ({n} lignes)",
-              fontsize=14, fonweight="bold")
+              fontsize=14, fontweight="bold")
     plt.axis("equal")
     plt.axis("off")
     plt.tight_layout()
