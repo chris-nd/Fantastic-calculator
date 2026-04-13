@@ -568,7 +568,7 @@ def main():
             n = demander_nombre_entier("Nombre de termes : ")
 
             suite = suite_geometrique(premier, raison, n)
-            print(f"\nSuite géométrique :")
+            print("\nSuite géométrique :")
             print(suite)
 
             somme = somme_suite_geometrique(premier, raison, n)
