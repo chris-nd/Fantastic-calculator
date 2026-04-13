@@ -1,5 +1,6 @@
 from datetime import datetime
 import math
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -31,7 +32,9 @@ def afficher_historique():
     print("L'HISTORIQUE DES CALCULS \n")
     for i, calcul in enumerate(historique, 1):
         print(
-            f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} ==> {calcul["resultat"]}")
+            f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} \
+            ==> {calcul["resultat"]}"
+            )
     print("="*34)
 
 
@@ -43,7 +46,10 @@ def sauvegarder_historique(nom_fichier="historique.txt"):
             fichier.write("="*34 + "\n\n")
 
             for i, calcul in enumerate(historique, 1):
-                ligne = f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} ==> {calcul["resultat"]}\n"
+                ligne = (
+                    f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} \
+                    ==> {calcul["resultat"]}\n"
+                )
                 fichier.write(ligne)
 
             print(f"\n✅ Historique sauvegardé dans '{nom_fichier}'")
@@ -82,10 +88,12 @@ def afficher_menu():
     print("19. Opérations sur les ensembles")
     print("\n" + "="*12 + " ANALYSES " + "="*12 + "\n")
     print("20. Analyser une suite personnalisée")
+    print("\n" + "="*10 + " EXPORT EN CSV " + "="*10 + "\n")
+    print("21. Exporter la dernière suite en CSV")
     print("\n" + "="*11 + " HISTORIQUE " + "="*11 + "\n")
-    print("21. Afficher l'historique")
-    print("22. Sauvegarder l'historique")
-    print("23. Effacer l'historique")
+    print("22. Afficher l'historique")
+    print("23. Sauvegarder l'historique")
+    print("24. Effacer l'historique")
     print("\n0. Quitter")
     print("\n" + "="*34)
 
@@ -287,6 +295,7 @@ def operations_ensembles(ensemble_a, ensemble_b):
         "disjoints": a.isdisjoint(b)
     }
 
+
 def demander_nombre_decimal(message):
     """Demande un nombre decimal avec validation"""
     while True:
@@ -366,7 +375,7 @@ def visualiser_triangle_pascal(n):
     plt.figure(figsize=(10, 8))
 
     for i, ligne in enumerate(triangle):
-        y_pos = n - i -1
+        y_pos = n - i - 1
         for j, valeur in enumerate(ligne):
             x_pos = j - len(ligne) / 2 + 0.5
 
@@ -406,7 +415,7 @@ def analyse_suite(suite):
     }
 
     # Tendance (coissance, décroissnate, constante)
-    differences= np.diff(arr)
+    differences = np.diff(arr)
 
     if np.all(differences > 0):
         analyse["tendance"] = "Strictement croissante"
@@ -422,10 +431,109 @@ def analyse_suite(suite):
     return analyse
 
 
+# ========== EXPORT CSV ==========
+
+def exporter_suite_csv(suite, nom_fichier=None, nom_suite="Suite"):
+    """
+    Exporte une suite dans un fichier CSV
+    """
+    if nom_fichier is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        nom_fichier = f"suite_{timestamp}.csv"
+
+    try:
+        with open(nom_fichier, 'w', newline='', encoding='utf-8') as fichier:
+            writer = csv.writer(fichier)
+
+            # En-têtes
+            writer.writerow(['Index', 'Valeur'])
+
+            # Données
+            for i, valeur in enumerate(suite):
+                writer.writerow([i, valeur])
+
+        print(f"\n✅ Suite exportée dans '{nom_fichier}'")
+        return nom_fichier
+
+    except Exception as e:
+        print(f"\n❌ Erreur lors de l'export : {e}")
+        return None
+
+
+def exporter_analyse_csv(suite, analyse, nom_fichier=None):
+    """
+    Exporte une suite avec son analyse dans un CSV
+    """
+    if nom_fichier is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        nom_fichier = f"analyse_{timestamp}.csv"
+
+    try:
+        with open(nom_fichier, 'w', newline='', encoding='utf-8') as fichier:
+            writer = csv.writer(fichier)
+
+            # Section 1 : Statistiques
+            writer.writerow(['STATISTIQUES'])
+            writer.writerow(['Métrique', 'Valeur'])
+            for cle, valeur in analyse.items():
+                writer.writerow([cle.capitalize(), valeur])
+
+            writer.writerow([])  # Ligne vide
+
+            # Section 2 : Données de la suite
+            writer.writerow(['DONNÉES DE LA SUITE'])
+            writer.writerow(['Index', 'Valeur'])
+            for i, valeur in enumerate(suite):
+                writer.writerow([i, valeur])
+
+        print(f"\n✅ Analyse exportée dans '{nom_fichier}'")
+        return nom_fichier
+
+    except Exception as e:
+        print(f"\n❌ Erreur lors de l'export : {e}")
+        return None
+
+
+def exporter_triangle_pascal_csv(n, nom_fichier=None):
+    """
+    Exporte le triangle de Pascal dans un CSV
+    """
+    if nom_fichier is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        nom_fichier = f"pascal_{timestamp}.csv"
+
+    triangle = triangle_pascal(n)
+
+    try:
+        with open(nom_fichier, 'w', newline='', encoding='utf-8') as fichier:
+            writer = csv.writer(fichier)
+
+            # En-tête
+            writer.writerow(['Triangle de Pascal'])
+            writer.writerow([])
+
+            # Chaque ligne du triangle
+            for i, ligne in enumerate(triangle):
+                # Ajouter des espaces pour centrer (effet visuel)
+                espaces = [''] * (n - i - 1)
+                writer.writerow([f'Ligne {i}'] + espaces + ligne)
+
+        print(f"\n✅ Triangle de Pascal exporté dans '{nom_fichier}'")
+        return nom_fichier
+
+    except Exception as e:
+        print(f"\n❌ Erreur lors de l'export : {e}")
+        return None
+
+
 # ============= PROGRAMME PRINCIPAL ===============
 
 def main():
     """Fonction principale du programme"""
+
+    # Variable pour stocker la dernière suite calculée
+    derniere_suite = None
+    derniere_analyse = None
 
     # Boucle principale
     while True:
@@ -439,15 +547,15 @@ def main():
             break
 
         # Gestion de l'historique
-        if choix == "21":
+        if choix == "22":
             afficher_historique()
             continue
 
-        elif choix == "22":
+        elif choix == "23":
             sauvegarder_historique()
             continue
 
-        elif choix == "23":
+        elif choix == "24":
             historique.clear()
             print("\n🗑 Historique effacé")
             continue
@@ -530,6 +638,7 @@ def main():
         elif choix == "11":
             n = demander_nombre_entier("Combien de termes ? ")
             suite = fibonacci(n)
+            derniere_suite = suite
             print(f"\n==> Suite de Fibonacci ({n} termes)")
             print(suite)
 
@@ -550,6 +659,7 @@ def main():
             n = demander_nombre_entier("Nombre de termes : ")
 
             suite = suite_arithmetique(premier, raison, n)
+            derniere_suite = suite
             print("\nSuite arithmétique :")
             print(suite)
 
@@ -568,6 +678,7 @@ def main():
             n = demander_nombre_entier("Nombre de termes : ")
 
             suite = suite_geometrique(premier, raison, n)
+            derniere_suite = suite
             print("\nSuite géométrique :")
             print(suite)
 
@@ -672,8 +783,21 @@ def main():
             if visualiser.lower() == 'o':
                 visualiser_suite(suite, "Suite personnalisée")
 
+        elif choix == "21":
+            if derniere_suite is None:
+                print(
+                    "\n❌ Aucune suite à exporter ! Calculez d'abord une suite."
+                )
+            else:
+                print(f"\nDernière suite : {derniere_suite[:10]}...")
+
+                if derniere_analyse:
+                    exporter_analyse_csv(derniere_suite, derniere_analyse)
+                else:
+                    exporter_suite_csv(derniere_suite)
+
         else:
-            print("❌ Choix invalide ! Choisissez un nombre entre 0 et 23")
+            print("❌ Choix invalide ! Choisissez un nombre entre 0 et 24")
 
 
 # Point d'entrée du programme
