@@ -392,7 +392,7 @@ def analyse_suite(suite):
     """
     Analyse une suite moyenne, variance, tendance
     """
-    arr = np.aray(suite)
+    arr = np.array(suite)
 
     analyse = {
         "longueur": len(suite),
