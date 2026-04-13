@@ -344,7 +344,7 @@ def comparer_suites(suites_dict):
 
     for nom, suite in suites_dict.items():
         n = len(suite)
-        x = np.array(range(n))
+        x = np.arange(n)
         y = np.array(suite)
         plt.plot(x, y, '-o', label=nom, linewidth=2, makersize=6)
 
