@@ -322,7 +322,7 @@ def visualiser_suite(suite, titre="Suite mathématique"):
     Visualise une suite avec matplotlib
     """
     n = len(suite)
-    x = np.array(range(n))
+    x = np.arange(n)
     y = np.array(suite)
 
     plt.figure(figsize=(10, 6))
