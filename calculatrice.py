@@ -83,10 +83,12 @@ def afficher_menu():
     print("19. Opérations sur les ensembles")
     print("\n" + "="*12 + " ANALYSES " + "="*12 + "\n")
     print("20. Analyser une suite personnalisée")
+    print("\n" + "="*10 + " EXPORT EN CSV " + "="*10 + "\n")
+    print("21. Exporter la dernière suite en CSV")
     print("\n" + "="*11 + " HISTORIQUE " + "="*11 + "\n")
-    print("21. Afficher l'historique")
-    print("22. Sauvegarder l'historique")
-    print("23. Effacer l'historique")
+    print("22. Afficher l'historique")
+    print("23. Sauvegarder l'historique")
+    print("24. Effacer l'historique")
     print("\n0. Quitter")
     print("\n" + "="*34)
 
@@ -523,6 +525,10 @@ def exporter_triangle_pascal_csv(n, nom_fichier=None):
 def main():
     """Fonction principale du programme"""
 
+    # Variable pour stocker la dernière suite calculée
+    derniere_suite = None
+    derniere_analyse = None
+
     # Boucle principale
     while True:
         afficher_menu()
@@ -535,15 +541,15 @@ def main():
             break
 
         # Gestion de l'historique
-        if choix == "21":
+        if choix == "22":
             afficher_historique()
             continue
 
-        elif choix == "22":
+        elif choix == "23":
             sauvegarder_historique()
             continue
 
-        elif choix == "23":
+        elif choix == "24":
             historique.clear()
             print("\n🗑 Historique effacé")
             continue
@@ -626,6 +632,7 @@ def main():
         elif choix == "11":
             n = demander_nombre_entier("Combien de termes ? ")
             suite = fibonacci(n)
+            derniere_suite = suite
             print(f"\n==> Suite de Fibonacci ({n} termes)")
             print(suite)
 
@@ -646,6 +653,7 @@ def main():
             n = demander_nombre_entier("Nombre de termes : ")
 
             suite = suite_arithmetique(premier, raison, n)
+            derniere_suite = suite
             print("\nSuite arithmétique :")
             print(suite)
 
@@ -664,6 +672,7 @@ def main():
             n = demander_nombre_entier("Nombre de termes : ")
 
             suite = suite_geometrique(premier, raison, n)
+            derniere_suite = suite
             print("\nSuite géométrique :")
             print(suite)
 
@@ -768,8 +777,19 @@ def main():
             if visualiser.lower() == 'o':
                 visualiser_suite(suite, "Suite personnalisée")
 
+        elif choix == "21":
+            if derniere_suite is None:
+                print("\n❌ Aucune suite à exporter ! Calculez d'abord une suite.")
+            else:
+                print(f"\nDernière suite : {derniere_suite[:10]}...")
+
+                if derniere_analyse:
+                    exporter_analyse_csv(derniere_suite, derniere_analyse)
+                else:
+                    exporter_suite_csv(derniere_suite)
+
         else:
-            print("❌ Choix invalide ! Choisissez un nombre entre 0 et 23")
+            print("❌ Choix invalide ! Choisissez un nombre entre 0 et 24")
 
 
 # Point d'entrée du programme
