@@ -2,6 +2,7 @@ from datetime import datetime
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
 # =============== FONCTIONS ===============
 
@@ -420,6 +421,101 @@ def analyse_suite(suite):
         analyse["tendance"] = "Ni croissante ni décroissante"
 
     return analyse
+
+
+# ========== EXPORT CSV ==========
+
+def exporter_suite_csv(suite, nom_fichier=None, nom_suite="Suite"):
+    """
+    Exporte une suite dans un fichier CSV
+    """
+    if nom_fichier is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        nom_fichier = f"suite_{timestamp}.csv"
+
+    try:
+        with open(nom_fichier, 'w', newline='', encoding='utf-8') as fichier:
+            writer = csv.writer(fichier)
+
+            # En-têtes
+            writer.writerow(['Index', 'Valeur'])
+
+            # Données
+            for i, valeur in enumerate(suite):
+                writer.writerow([i, valeur])
+
+        print(f"\n✅ Suite exportée dans '{nom_fichier}'")
+        return nom_fichier
+
+    except Exception as e:
+        print(f"\n❌ Erreur lors de l'export : {e}")
+        return None
+
+
+def exporter_analyse_csv(suite, analyse, nom_fichier=None):
+    """
+    Exporte une suite avec son analyse dans un CSV
+    """
+    if nom_fichier is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        nom_fichier = f"analyse_{timestamp}.csv"
+
+    try:
+        with open(nom_fichier, 'w', newline='', encoding='utf-8') as fichier:
+            writer = csv.writer(fichier)
+
+            # Section 1 : Statistiques
+            writer.writerow(['STATISTIQUES'])
+            writer.writerow(['Métrique', 'Valeur'])
+            for cle, valeur in analyse.items():
+                writer.writerow([cle.capitalize(), valeur])
+
+            writer.writerow([])  # Ligne vide
+
+            # Section 2 : Données de la suite
+            writer.writerow(['DONNÉES DE LA SUITE'])
+            writer.writerow(['Index', 'Valeur'])
+            for i, valeur in enumerate(suite):
+                writer.writerow([i, valeur])
+
+        print(f"\n✅ Analyse exportée dans '{nom_fichier}'")
+        return nom_fichier
+
+    except Exception as e:
+        print(f"\n❌ Erreur lors de l'export : {e}")
+        return None
+
+
+def exporter_triangle_pascal_csv(n, nom_fichier=None):
+    """
+    Exporte le triangle de Pascal dans un CSV
+    """
+    if nom_fichier is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        nom_fichier = f"pascal_{timestamp}.csv"
+
+    triangle = triangle_pascal(n)
+
+    try:
+        with open(nom_fichier, 'w', newline='', encoding='utf-8') as fichier:
+            writer = csv.writer(fichier)
+
+            # En-tête
+            writer.writerow(['Triangle de Pascal'])
+            writer.writerow([])
+
+            # Chaque ligne du triangle
+            for i, ligne in enumerate(triangle):
+                # Ajouter des espaces pour centrer (effet visuel)
+                espaces = [''] * (n - i - 1)
+                writer.writerow([f'Ligne {i}'] + espaces + ligne)
+
+        print(f"\n✅ Triangle de Pascal exporté dans '{nom_fichier}'")
+        return nom_fichier
+
+    except Exception as e:
+        print(f"\n❌ Erreur lors de l'export : {e}")
+        return None
 
 
 # ============= PROGRAMME PRINCIPAL ===============
