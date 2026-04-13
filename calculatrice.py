@@ -287,13 +287,32 @@ def operatons_ensembles(ensemble_a, ensemble_b):
         "disjoints": a.isdisjoint(b)
     }
 
-def demander_nombre(message):
-    """Demande un nombre à l'utilisateur"""
+def demander_nombre_decimal(message):
+    """Demande un nombre decimal avec validation"""
     while True:
         try:
             return float(input(message))
         except ValueError:
-            return "❌ Erreur: Veuillez entrer un nombre valide"
+            return "❌ Erreur: Veuillez entrer un nombre décimal valide"
+
+
+def demander_nombre_entier(message):
+    """Demande un nombre entier avec validation"""
+    while True:
+        try:
+            return int(input(message))
+        except ValueError:
+            return "❌ Erreur: Veuillez entrer un nombre entier valide"
+
+
+def demander_liste_entier(message):
+    """Demande une liste de nombres entiers avec validation"""
+    while True:
+        try:
+            liste = input(message)
+            return [int(x.strip()) for x in liste.split(",")]
+        except ValueError:
+            return "❌ Format invalide ! Example : 1,2,3,4,5"
 
 
 # ============= VISUALISATION ===============
