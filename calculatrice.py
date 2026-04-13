@@ -346,7 +346,7 @@ def comparer_suites(suites_dict):
         n = len(suite)
         x = np.arange(n)
         y = np.array(suite)
-        plt.plot(x, y, '-o', label=nom, linewidth=2, makersize=6)
+        plt.plot(x, y, '-o', label=nom, linewidth=2, markersize=6)
 
     plt.xlabel("n (index)", fontsize=12)
     plt.xlabel("U(n)", fontsize=12)
