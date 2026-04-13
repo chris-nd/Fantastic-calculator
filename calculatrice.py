@@ -269,7 +269,7 @@ def triangle_pascal(n):
 
 # =========== ENSEMBLES MATHÉMATIQUES ===========
 
-def operatons_ensembles(ensemble_a, ensemble_b):
+def operations_ensembles(ensemble_a, ensemble_b):
     """
     Effectue toutes les opérations sur deux ensembles
     """
@@ -392,7 +392,7 @@ def analyse_suite(suite):
     """
     Analyse une suite moyenne, variance, tendance
     """
-    arr = np.aaray(suite)
+    arr = np.aray(suite)
 
     analyse = {
         "longueur": len(suite),
@@ -492,7 +492,7 @@ def main():
 
         # Opération avec un seul nombre
         elif choix in ["6", "7", "8", "9", "10"]:
-            nombre = demander_nombre("Entrez le nombre : ")
+            nombre = demander_nombre_decimal("Entrez le nombre : ")
 
             if choix == "6":
                 resultat = racine_carree(nombre)
@@ -527,8 +527,153 @@ def main():
                 print(f"==> {operation} = {resultat} radians")
                 ajouter_historique(operation, resultat)
 
+        elif choix == "14":
+            n = demander_nombre_entier("Combien de termes ? ")
+            suite = fibonacci(n)
+            print(f"\n==> Suite de Fibonacci ({n} termes)")
+            print(suite)
+
+            if n > 0:
+                analyse = analyse_suite(suite)
+                print("\nAnalyse de la suite")
+                print(f" Somme : {analyse['somme']}")
+                print(f" Moyenne : {analyse['moyenne']:.2f}")
+                print(f" Tendance : {analyse['tendance']}")
+
+                visualiser = input("\nVisualiser ? (o/n) : ")
+                if visualiser.lower() == 'o':
+                    visualiser_suite(suite, "Suite de Fibonacci")
+
+        elif choix == "15":
+            premier = demander_nombre_decimal("Premier terme : ")
+            raison = demander_nombre_decimal("Raison : ")
+            n = demander_nombre_entier("Nombre de termes : ")
+
+            suite = suite_arithmetique(premier, raison, n)
+            print("\nSuite arithmétique :")
+            print(suite)
+
+            somme = somme_suite_arithmetique(premier, suite[-1], n)
+            print(f"\nSomme de la suite : {somme}")
+
+            visualiser = input("\nVisualiser ? (o/n) : ")
+            if visualiser.lower() == 'o':
+                visualiser_suite(
+                    suite, f"Suite arithmétique (u₀={premier}, r={raison})"
+                )
+
+        elif choix == "16":
+            premier = demander_nombre_decimal("Premier terme : ")
+            raison = demander_nombre_decimal("Raison : ")
+            n = demander_nombre_entier("Nombre de termes : ")
+
+            suite = suite_geometrique(premier, raison, n)
+            print(f"\nSuite géométrique :")
+            print(suite)
+
+            somme = somme_suite_geometrique(premier, raison, n)
+            print(f"\nSomme de la suite : {somme}")
+
+            visualiser = input("\nVisualiser ? (o/n) : ")
+            if visualiser.lower() == 'o':
+                visualiser_suite(
+                    suite, f"Suite géométrique (u₀={premier}, q={raison})")
+
+        elif choix == "17":
+            n = demander_nombre_entier("Nombre de termes : ")
+
+            suites = {
+                "Fibonacci": fibonacci(n),
+                "Arithmétique (u₀=1, r=2)": suite_arithmetique(1, 2, n),
+                "Géométrique (u₀=1, q=2)": suite_geometrique(1, 2, n)
+            }
+
+            print("\nComparaison des suites :")
+            for nom, suite in suites.items():
+                print(
+                    f"{nom} : {suite[:10]}{'...' if len(suite) > 10 else ''}")
+
+            comparer_suites(suites)
+
+        elif choix == "18":
+            n = demander_liste_entier("Calculer factorielle de : ")
+            resultat = factorielle(n)
+            if resultat is not None:
+                print(f"\n{n}! = {resultat}")
+            else:
+                print("\n❌ Erreur : n doit être >= 0")
+
+        elif choix == "19":
+            n = demander_nombre_entier("n = ")
+            k = demander_nombre_entier("k = ")
+            resultat = arrangement(n, k)
+            if resultat is not None:
+                print(f"\nA({n},{k}) = {resultat}")
+            else:
+                print("\n❌ Erreur : vérifiez que 0 <= k <= n")
+
+        elif choix == "20":
+            n = demander_nombre_entier("n = ")
+            k = demander_nombre_entier("k = ")
+            resultat = combinaison(n, k)
+            if resultat is not None:
+                print(f"\nC({n},{k}) = {resultat}")
+            else:
+                print("\n❌ Erreur : vérifiez que 0 <= k <= n")
+
+        elif choix == "21":
+            n = demander_nombre_entier("Nombre de lignes : ")
+            triangle = triangle_pascal(n)
+
+            print(f"\nTriangle de Pascal ({n} lignes) :")
+            for i, ligne in enumerate(triangle):
+                print(f"Ligne {i} : {ligne}")
+
+            visualiser = input("\nVisualiser ? (o/n) : ")
+            if visualiser.lower() == 'o':
+                visualiser_triangle_pascal(n)
+
+        elif choix == "22":
+            print("\nEntrez les ensembles (format : 1,2,3,4)")
+            a = demander_liste_entier("Ensemble A : ")
+            b = demander_liste_entier("Ensemble B : ")
+
+            ops = operations_ensembles(a, b)
+
+            print("\nEnsembles :")
+            print(f"A = {set(a)}")
+            print(f"B = {set(b)}")
+            print("\nOpérations :")
+            print(f"A ∪ B = {ops['union']}")
+            print(f"A ∩ B = {ops['intersection']}")
+            print(f"A - B = {ops['difference_a_b']}")
+            print(f"B - A = {ops['difference_b_a']}")
+            print(f"A △ B = {ops['difference_symetrique']}")
+            print("\nRelations :")
+            print(f"A ⊆ B ? {ops['a_sous_ensemble_b']}")
+            print(f"B ⊆ A ? {ops['b_sous_ensemble_a']}")
+            print(f"Disjoints ? {ops['disjoints']}")
+
+        elif choix == "23":
+            suite = demander_liste_entier(
+                "Entrez votre suite (ex: 1,4,9,16,25) : ")
+
+            analyse = analyse_suite(suite)
+
+            print(f"\nSuite : {suite}")
+            print("\nAnalyse statistique :")
+            for cle, valeur in analyse.items():
+                if isinstance(valeur, float):
+                    print(f"  {cle.capitalize()} : {valeur:.2f}")
+                else:
+                    print(f"  {cle.capitalize()} : {valeur}")
+
+            visualiser = input("\nVisualiser ? (o/n) : ")
+            if visualiser.lower() == 'o':
+                visualiser_suite(suite, "Suite personnalisée")
+
         else:
-            print("❌ Choix invalide ! Choisissez un nombre entre 0 et 13")
+            print("❌ Choix invalide ! Choisissez un nombre entre 0 et 17")
 
 
 # Point d'entrée du programme
