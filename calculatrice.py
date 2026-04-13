@@ -1,8 +1,8 @@
 from datetime import datetime
 import math
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
-import csv
 
 # =============== FONCTIONS ===============
 
@@ -32,7 +32,9 @@ def afficher_historique():
     print("L'HISTORIQUE DES CALCULS \n")
     for i, calcul in enumerate(historique, 1):
         print(
-            f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} ==> {calcul["resultat"]}")
+            f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} \
+            ==> {calcul["resultat"]}"
+            )
     print("="*34)
 
 
@@ -44,7 +46,10 @@ def sauvegarder_historique(nom_fichier="historique.txt"):
             fichier.write("="*34 + "\n\n")
 
             for i, calcul in enumerate(historique, 1):
-                ligne = f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} ==> {calcul["resultat"]}\n"
+                ligne = (
+                    f"{i:>2d}. [{calcul["heure"]}] {calcul["operation"]} \
+                    ==> {calcul["resultat"]}\n"
+                )
                 fichier.write(ligne)
 
             print(f"\n✅ Historique sauvegardé dans '{nom_fichier}'")
@@ -290,6 +295,7 @@ def operations_ensembles(ensemble_a, ensemble_b):
         "disjoints": a.isdisjoint(b)
     }
 
+
 def demander_nombre_decimal(message):
     """Demande un nombre decimal avec validation"""
     while True:
@@ -369,7 +375,7 @@ def visualiser_triangle_pascal(n):
     plt.figure(figsize=(10, 8))
 
     for i, ligne in enumerate(triangle):
-        y_pos = n - i -1
+        y_pos = n - i - 1
         for j, valeur in enumerate(ligne):
             x_pos = j - len(ligne) / 2 + 0.5
 
@@ -409,7 +415,7 @@ def analyse_suite(suite):
     }
 
     # Tendance (coissance, décroissnate, constante)
-    differences= np.diff(arr)
+    differences = np.diff(arr)
 
     if np.all(differences > 0):
         analyse["tendance"] = "Strictement croissante"
@@ -779,7 +785,9 @@ def main():
 
         elif choix == "21":
             if derniere_suite is None:
-                print("\n❌ Aucune suite à exporter ! Calculez d'abord une suite.")
+                print(
+                    "\n❌ Aucune suite à exporter ! Calculez d'abord une suite."
+                )
             else:
                 print(f"\nDernière suite : {derniere_suite[:10]}...")
 
